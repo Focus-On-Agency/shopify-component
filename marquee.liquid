@@ -1,0 +1,141 @@
+{% comment %} 
+	This is a Shopify section file.
+	Add this file to your theme sections directory.
+	
+	Developed by: Focus On Agency
+
+	For problems and questions open an issue on GitHub.
+	https://github.com/Focus-On-Agency/shopify-component.git
+{% endcomment %}
+
+{% schema %}
+{
+  "name": "Marquee",
+  "class": "section-marquee",
+  "settings": [
+    {
+      "type": "range",
+      "id": "marquee_speed",
+      "label": "Marquee Speed",
+      "min": 0,
+      "max": 5,
+      "step": 0.2,
+      "default": 2,
+      "unit": "s"
+    },
+    {
+      "type": "range",
+      "id": "marquee_space",
+      "label": "Space Between Images",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "default": 4,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "marquee_height",
+      "label": "Marquee Session Height",
+      "min": 100,
+      "max": 400,
+      "step": 5,
+      "default": 200,
+      "unit": "px"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Marquee",
+      "category": "Image",
+      "settings": {},
+      "blocks": [
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+<style>
+  /* Styling for the marquee container */
+  .fson-marquee {
+    display: flex;
+    width: 100%;
+  }
+  
+  /* Styling for each item within the marquee */
+  .fson-marquee-item {
+    flex-shrink: 0;
+	margin-right: {{ section.settings.marquee_space }}px;
+  }
+</style>
+
+<script>
+	document.addEventListener('DOMContentLoaded', function() {
+	const marquee = document.querySelector('.fson-marquee');
+	const marqueeItems = Array.from(marquee.querySelectorAll('.fson-marquee-item'));
+	const speed = {{ section.settings.marquee_speed }};
+	let marqueeWidth = 0;
+
+	marqueeItems.forEach(item => {
+		marqueeWidth += item.offsetWidth;
+	});
+	
+	for (let i = 0; i < ((marquee.offsetWidth / marqueeWidth) * 2); i++) {
+		const itemIndex = i % marqueeItems.length;
+		const clone = marqueeItems[itemIndex].cloneNode(true);
+		marquee.appendChild(clone);
+	}
+
+	marquee.style.transform = 'translateX(0px)';
+	marquee.style.transition = `transform ${marqueeWidth / (speed * 100)}s linear`;
+
+	marquee.addEventListener('transitionend', () => {
+		marqueeItems.forEach(item => {
+		marquee.appendChild(item);
+		});
+		marquee.style.transition = 'none';
+		marquee.style.transform = 'translateX(0px)';
+		void marquee.offsetWidth;
+		marquee.style.transition = `transform ${marqueeWidth / (speed * 100)}s linear`;
+		marquee.style.transform = `translateX(-${marqueeWidth / 2}px)`;
+	});
+
+	marquee.style.transform = `translateX(-${marqueeWidth / 2}px)`;
+	});
+</script>
+
+<div class="marquee-section">
+  <div class="fson-marquee">
+    {% for block in section.blocks %}
+      <div class="fson-marquee-item">
+       {{
+          block.settings.image |
+          image_url: height: section.settings.marquee_height |
+          image_tag:
+            alt: block.settings.image.alt,
+            widths: '200, 300, 400, 600, 800'
+      }}
+      </div>
+    {% endfor %}
+  </div>
+</div>
