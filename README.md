@@ -1,10 +1,8 @@
-# shopify stendalone
+# Shopify Stendalone
 
 ## Description
 
-This repo contains the code for the Shopify component stendalone.
-You can use this component for your Shopify store.
-It is a standalone component and can be used in any project.
+This repo contains a standalone component for Shopify. This are a simple component that can be used in any Shopify project.
 
 ## Installation
 
