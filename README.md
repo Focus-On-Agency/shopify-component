@@ -2,7 +2,7 @@
 
 ## Description
 
-This repo contains a standalone component for Shopify. This are a simple component that can be used in any Shopify project.
+This repo contains a standalone components for Shopify. This are a simple components that can be used in any Shopify project.
 
 ## Installation
 
