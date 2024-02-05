@@ -4,6 +4,8 @@
 
 This repo contains a standalone components for Shopify. This are a simple components that can be used in any Shopify project.
 
+Leave a star on the repo, if you like it. Your support is much appreciated!
+
 ## Usage
 
 Choose the component form the 'section' folder and add it to your project, in the 'section' folder.
